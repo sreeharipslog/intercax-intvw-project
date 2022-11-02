@@ -5,3 +5,6 @@ spring:
         url: jdbc:mysql://database-url
         username: icax-db
         password: T09riow
+    banner:
+        charset: UTF-8
+        location: classpath:robot-inventory-banner.txt
