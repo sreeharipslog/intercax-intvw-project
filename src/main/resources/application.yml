@@ -8,3 +8,6 @@ spring:
     banner:
         charset: UTF-8
         location: classpath:robot-inventory-banner.txt
+server:
+    servlet:
+        context-path: /api/v1

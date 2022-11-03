@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
@@ -20,8 +22,11 @@ public class RobotService {
      * @param id robot id
      * @return Robot object
      */
-    public Robot getRobotById(Long id) {
-        return robotRepository.findById(id).orElseThrow(RuntimeException::new);
+    public Optional<Robot> getRobotById(Long id) {
+        return robotRepository.findById(id);
     }
 
+    public Optional<List<Robot>> getAllDeployableRobots() {
+        return null;
+    }
 }
