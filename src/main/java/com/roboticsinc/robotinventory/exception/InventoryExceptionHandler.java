@@ -1,6 +1,8 @@
 package com.roboticsinc.robotinventory.exception;
 
 import com.roboticsinc.robotinventory.constant.ErrorConstants;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -20,16 +22,18 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class InventoryExceptionHandler {
 
+    private static final Logger logger = LoggerFactory.getLogger(InventoryExceptionHandler.class);
+
     @ExceptionHandler({BusinessException.class, ConstraintViolationException.class, RuntimeException.class})
     public ResponseEntity<ServiceError> handleException(Exception exception) {
-        // TODO :: Log RTE for auditing
+        logger.error("Service Exception :: ", exception);
         if (exception instanceof BusinessException) return handleBusinessException((BusinessException) exception);
         else if (exception instanceof ValidationException)
             return handleViolationException((ConstraintViolationException) exception);
-        else return handleGenericException(exception);
+        else return handleGenericException();
     }
 
-    private ResponseEntity<ServiceError> handleGenericException(Exception exception) {
+    private ResponseEntity<ServiceError> handleGenericException() {
         return ResponseEntity.ok()
                 .body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ErrorConstants.INTERNAL_SERVER_ERROR));
     }
