@@ -1,6 +1,6 @@
 spring:
     profiles:
-        active: sit
+        active: dev
     banner:
         charset: UTF-8
         location: classpath:robot-inventory-banner.txt
