@@ -1,0 +1,21 @@
+package com.roboticsinc.robotinventory.repository;
+
+import com.roboticsinc.robotinventory.constant.AppConstants;
+import com.roboticsinc.robotinventory.constant.ErrorConstants;
+import com.roboticsinc.robotinventory.domain.Robot;
+import com.roboticsinc.robotinventory.domain.RobotState;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.List;
+
+public interface RobotRepository extends JpaRepository<Robot, Long> {
+
+    List<Robot> findAllByState(RobotState state);
+
+    @Modifying
+    @Query("UPDATE Robot r SET r.state = :state")
+    void updateRobotState(@Param("state") RobotState state);
+}
