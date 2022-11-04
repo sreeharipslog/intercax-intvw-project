@@ -5,7 +5,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "robot_status")
-public class RobotStatus {
+public class RobotState {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,7 +44,7 @@ public class RobotStatus {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RobotStatus that = (RobotStatus) o;
+        RobotState that = (RobotState) o;
         return id.equals(that.id);
     }
 

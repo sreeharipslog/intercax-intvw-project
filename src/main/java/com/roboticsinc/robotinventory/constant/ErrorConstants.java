@@ -7,7 +7,7 @@ public interface ErrorConstants {
 
     enum BusinessError {
         INVENTORY_EMPTY (1000, "Robot inventory is empty"),
-        ROBOT_NOT_FOUND(1001, "Robot not found in Inventory");
+        ROBOT_NOT_FOUND(1001, "Robot not found in Inventory"), INVALID_ROBOT_STATE(1002, "Invalid Robot State");
 
         private final int errorCode;
         private final String message;

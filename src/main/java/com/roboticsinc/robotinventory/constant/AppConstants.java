@@ -6,7 +6,10 @@ public interface AppConstants {
         YELLOW, BLUE, GREEN, BLACK;
     }
 
-    enum Status {
+    enum State {
         AWAITED, READY, DEPLOYED, DECOMMISSIONED;
     }
+
+    // Regex constants
+    String ROBOT_STATE_REGEX = "Awaited|Ready|Deployed|Decommissioned";
 }

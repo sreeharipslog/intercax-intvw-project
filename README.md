@@ -9,10 +9,10 @@ Robotics Inc. builds and manages an inventory of smart robots that aid in disast
 Dashboard
 
 (2) The software should allow Robotics Inc. to track the following 3 states in a robot’s
-lifecycle - robots that are currertly being designed, robots have been tested and ready to
+lifecycle - robots that are currently being designed, robots have been tested and ready to
 ship, or robots deployed on field
 
-(3) The software should allow Robotics Inc. to add new new robots, or update entries of
+(3) The software should allow Robotics Inc. to add new robots, or update entries of
 existing robots, or mark robots as damaged beyond repair (end-of-life) using its unique
 id
 
@@ -32,7 +32,7 @@ following details.
 
 (2) Use any web application framework (Play, Spring, etc.) to build a web-service
 
-(3) Provide GET, POST, PUT, and DELETE endpoints for the robot inventory. The DELETE endpoint marks the robot as damaged beyind repair so that it does now show up when the inventory is queried.
+(3) Provide GET, POST, PUT, and DELETE endpoints for the robot inventory. The DELETE endpoint marks the robot as damaged beyond repair so that it does now show up when the inventory is queried.
 
 (4) You get extra points if you can also show the results of the following queries on a web-page, calling the web-service REST API you provide.
 

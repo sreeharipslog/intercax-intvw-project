@@ -30,7 +30,7 @@ public class Robot {
 
     @NotNull
     @OneToOne
-    private RobotStatus status;
+    private RobotState state;
 
 
     public Long getId() {
@@ -73,12 +73,12 @@ public class Robot {
         this.color = color;
     }
 
-    public RobotStatus getStatus() {
-        return status;
+    public RobotState getState() {
+        return state;
     }
 
-    public void setStatus(RobotStatus status) {
-        this.status = status;
+    public void setState(RobotState state) {
+        this.state = state;
     }
 
     @Override
