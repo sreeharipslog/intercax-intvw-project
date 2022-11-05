@@ -2,14 +2,10 @@ package com.roboticsinc.robotinventory.constant;
 
 public interface AppConstants {
 
-    enum Color {
-        YELLOW, BLUE, GREEN, BLACK;
-    }
+    String END_OF_LIFE = "END-OF-LIFE";
 
-    enum State {
-        AWAITED, READY, DEPLOYED, DECOMMISSIONED;
-    }
 
     // Regex constants
-    String ROBOT_STATE_REGEX = "Awaited|Ready|Deployed|Decommissioned";
+    String ROBOT_STATE_REGEX = "AWAITED|READY|DEPLOYED";
+    String ROBOT_FUNCTION_REGEX = "LS|TS|SS|PS|DF";
 }

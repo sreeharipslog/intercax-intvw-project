@@ -6,19 +6,19 @@ public class ServiceError implements Serializable {
 
     private static final long serialVersionUID = -4645994987672908971L;
 
-    private final int status;
-    private final Object data;
+    private final int errorCode;
+    private final Object error;
 
-    public ServiceError(int status, Object data) {
-        this.status = status;
-        this.data = data;
+    public ServiceError(int errorCode, Object error) {
+        this.errorCode = errorCode;
+        this.error = error;
     }
 
-    public int getStatus() {
-        return status;
+    public int getErrorCode() {
+        return errorCode;
     }
 
-    public Object getData() {
-        return data;
+    public Object getError() {
+        return error;
     }
 }

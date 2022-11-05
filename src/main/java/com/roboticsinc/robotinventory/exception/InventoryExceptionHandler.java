@@ -3,14 +3,16 @@ package com.roboticsinc.robotinventory.exception;
 import com.roboticsinc.robotinventory.constant.ErrorConstants;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import javax.validation.ConstraintViolationException;
-import javax.validation.ValidationException;
 import java.util.List;
+import java.util.Locale;
 import java.util.stream.Collectors;
 
 /**
@@ -22,29 +24,45 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class InventoryExceptionHandler {
 
+    /**
+     * Can extend {@link org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler } and
+     * override its method for some of the below exception.
+     */
+
     private static final Logger logger = LoggerFactory.getLogger(InventoryExceptionHandler.class);
 
-    @ExceptionHandler({BusinessException.class, ConstraintViolationException.class, RuntimeException.class})
+    @Autowired
+    private MessageSource messageSource;
+
+    @ExceptionHandler({BusinessException.class, MethodArgumentNotValidException.class, Exception.class})
     public ResponseEntity<ServiceError> handleException(Exception exception) {
-        logger.error("Service Exception :: ", exception);
+        logger.error("Inventory Service Exception");
         if (exception instanceof BusinessException) return handleBusinessException((BusinessException) exception);
-        else if (exception instanceof ValidationException)
-            return handleViolationException((ConstraintViolationException) exception);
-        else return handleGenericException();
+        else if (exception instanceof MethodArgumentNotValidException)
+            return handleValidationException((MethodArgumentNotValidException) exception);
+        else return handleGenericException(exception);
     }
 
-    private ResponseEntity<ServiceError> handleGenericException() {
-        return ResponseEntity.ok()
-                .body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ErrorConstants.INTERNAL_SERVER_ERROR));
+    private ResponseEntity<ServiceError> handleGenericException(Exception exception) {
+        logger.error("Internal Exception", exception);
+        return ResponseEntity.internalServerError().body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+                resolveErrorMessage(ErrorConstants.ErrorMessages.INTERNAL_SERVER_ERROR)));
     }
 
-    private ResponseEntity<ServiceError> handleViolationException(ConstraintViolationException exception) {
-        List<String> violations = exception.getConstraintViolations().stream()
-                .map(x -> x.getPropertyPath().toString() + ":" + x.getMessage()).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new ServiceError(HttpStatus.BAD_REQUEST.value(), violations));
+    private ResponseEntity<ServiceError> handleValidationException(MethodArgumentNotValidException exception) {
+        logger.error("Validation Exception", exception);
+        List<String> violations = exception.getFieldErrors().stream()
+                .map(x -> x.getField() + " : " + x.getDefaultMessage()).collect(Collectors.toList());
+        return ResponseEntity.badRequest().body(new ServiceError(HttpStatus.BAD_REQUEST.value(), violations));
     }
 
     private ResponseEntity<ServiceError> handleBusinessException(BusinessException exception) {
-        return ResponseEntity.ok().body(new ServiceError(exception.getErrorCode(), exception.getMessage()));
+        logger.error("Business Exception", exception);
+        return ResponseEntity.unprocessableEntity()
+                .body(new ServiceError(exception.getErrorCode(), resolveErrorMessage(exception.getMessage())));
+    }
+
+    private String resolveErrorMessage(String errorMessage) {
+        return messageSource.getMessage(errorMessage, null, ErrorConstants.CONFIG_ERROR, Locale.US);
     }
 }

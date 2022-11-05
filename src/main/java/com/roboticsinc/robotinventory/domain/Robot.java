@@ -1,12 +1,11 @@
 package com.roboticsinc.robotinventory.domain;
 
-import com.roboticsinc.robotinventory.constant.AppConstants.Color;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.time.Year;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "robot")
@@ -20,17 +19,22 @@ public class Robot {
     @Column(nullable = false)
     private String name;
 
-    @NotNull
-    private Year yearBuilt;
+    @Column(nullable = false)
+    private String yearBuilt;
 
     private float mass; // assume all robots have same mass unit
 
-    @Enumerated(EnumType.STRING)
-    private Color color;
+    private String color;
 
     @NotNull
     @OneToOne
     private RobotState state;
+
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(name = "robot_function_mapping",
+               joinColumns = @JoinColumn(name = "robot_id", referencedColumnName = "id"),
+               inverseJoinColumns = @JoinColumn(name = "function_id", referencedColumnName = "id"))
+    private Set<RobotFunction> functions = new HashSet<>();
 
 
     public Long getId() {
@@ -49,11 +53,11 @@ public class Robot {
         this.name = name;
     }
 
-    public Year getYearBuilt() {
+    public String getYearBuilt() {
         return yearBuilt;
     }
 
-    public void setYearBuilt(Year yearBuilt) {
+    public void setYearBuilt(String yearBuilt) {
         this.yearBuilt = yearBuilt;
     }
 
@@ -65,11 +69,11 @@ public class Robot {
         this.mass = mass;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
@@ -79,6 +83,35 @@ public class Robot {
 
     public void setState(RobotState state) {
         this.state = state;
+    }
+
+    public Set<RobotFunction> getFunctions() {
+        // Use Hibernate initialization check if this method is repeatedly called at lower levels, to avoid extra query
+        return functions;
+    }
+
+    public void setFunctions(Set<RobotFunction> functions) {
+        this.functions = functions;
+    }
+
+    /**
+     * Utility to add robot function such that bidirectional relationship consistency is maintained
+     *
+     * @param fun robot function
+     */
+    public void addRobotFunction(RobotFunction fun) {
+        functions.add(fun);
+        fun.getRobots().add(this);
+    }
+
+    /**
+     * Utility to remove robot function such that bidirectional relationship consistency is maintained
+     *
+     * @param fun robot function
+     */
+    public void removeRobotFunction(RobotFunction fun) {
+        functions.remove(fun);
+        fun.getRobots().remove(this);
     }
 
     @Override
