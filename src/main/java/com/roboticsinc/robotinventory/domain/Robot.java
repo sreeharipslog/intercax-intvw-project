@@ -1,7 +1,5 @@
 package com.roboticsinc.robotinventory.domain;
 
-import com.roboticsinc.robotinventory.constant.AppConstants.Color;
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -25,12 +23,18 @@ public class Robot {
 
     private float mass; // assume all robots have same mass unit
 
-    @Enumerated(EnumType.STRING)
-    private Color color;
+    private String color;
 
     @NotNull
     @OneToOne
     private RobotState state;
+
+    /*
+    TODO :: Add robot functions
+    @OneToMany
+    @JoinTable
+    private Set<RobotFunction> functions;
+     */
 
 
     public Long getId() {
@@ -65,11 +69,11 @@ public class Robot {
         this.mass = mass;
     }
 
-    public Color getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Color color) {
+    public void setColor(String color) {
         this.color = color;
     }
 

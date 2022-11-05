@@ -16,6 +16,6 @@ public interface RobotRepository extends JpaRepository<Robot, Long> {
     List<Robot> findAllByState(RobotState state);
 
     @Modifying
-    @Query("UPDATE Robot r SET r.state = :state")
-    void updateRobotState(@Param("state") RobotState state);
+    @Query("UPDATE Robot r SET r.state = :state where r.id = :id")
+    void updateRobotState(@Param("id") Long id, @Param("state") RobotState state);
 }

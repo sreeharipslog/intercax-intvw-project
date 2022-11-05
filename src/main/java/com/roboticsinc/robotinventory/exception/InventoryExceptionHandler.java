@@ -35,7 +35,7 @@ public class InventoryExceptionHandler {
 
     private ResponseEntity<ServiceError> handleGenericException() {
         return ResponseEntity.ok()
-                .body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ErrorConstants.INTERNAL_SERVER_ERROR));
+                .body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(), ErrorConstants.ErrorMessages.INTERNAL_SERVER_ERROR));
     }
 
     private ResponseEntity<ServiceError> handleViolationException(ConstraintViolationException exception) {

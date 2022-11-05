@@ -2,12 +2,17 @@ package com.roboticsinc.robotinventory.constant;
 
 public interface AppConstants {
 
-    enum Color {
-        YELLOW, BLUE, GREEN, BLACK;
-    }
-
+    /**
+     * Robot state.<br>
+     * <ul>
+     *     <li>AWAITED : Currently being created</li>
+     *     <li>READY : Tested and Ready to ship</li>
+     *     <li>DEPLOYED : Deployed on field</li>
+     *     <li>END_OF_LIFE : Damaged beyond repair</li>
+     * </ul>
+     */
     enum State {
-        AWAITED, READY, DEPLOYED, DECOMMISSIONED;
+        AWAITED, READY, DEPLOYED, END_OF_LIFE;
     }
 
     // Regex constants
