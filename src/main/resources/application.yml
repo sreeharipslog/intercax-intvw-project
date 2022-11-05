@@ -10,9 +10,12 @@ spring:
         password: Dev1testDB
     jpa:
         database-platform: org.hibernate.dialect.H2Dialect # h2 dialect for auto-generated scripts (maps jdbc type to db type)
-        properties:
+        show-sql: true
+        #properties:
             # hibernate.hbm2ddl.auto: validate # Enable in higher env when using persistence DB for better control
 
 server:
     servlet:
         context-path: /api/v1
+    error:
+        include-stacktrace: never
