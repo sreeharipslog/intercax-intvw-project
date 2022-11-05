@@ -19,9 +19,19 @@ import java.util.Optional;
 import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_FUNCTION;
 import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_STATE;
 
+/**
+ * Robot service
+ *
+ * @author sreeharipslog
+ */
 @Service
 @Transactional
 public class RobotService {
+
+    /*
+    For better abstraction and to support multiple implementations create interface for service and implements it for
+    this class
+     */
 
     private static final Logger logger = LoggerFactory.getLogger(RobotService.class);
 
@@ -93,9 +103,8 @@ public class RobotService {
      * @param robot data to be saved
      * @return id of persisted robot
      */
-    public Long registerRobot(Robot robot) {
+    public Long saveRobot(Robot robot) {
         robot = robotRepository.save(robot);
-        logger.info("Robot created successfully with default status and id = {}", robot.getId());
         return robot.getId();
     }
 }

@@ -46,8 +46,9 @@ public class RobotController {
      * @return saved {@link Robot} id
      */
     @PostMapping
-    public Long createRobot(@RequestBody @Valid RobotDTO robotDTO) {
-        return robotService.registerRobot(robotMapper.dtoToDomain(robotDTO));
+    public String createRobot(@RequestBody @Valid RobotDTO robotDTO) {
+        Long id = robotService.saveRobot(robotMapper.dtoToDomain(robotDTO));
+        return "Robot created successfully with id = " + id;
     }
 
     /**

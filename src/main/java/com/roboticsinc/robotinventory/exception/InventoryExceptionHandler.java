@@ -45,7 +45,7 @@ public class InventoryExceptionHandler {
 
     private ResponseEntity<ServiceError> handleGenericException(Exception exception) {
         logger.error("Internal Exception", exception);
-        return ResponseEntity.ok().body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+        return ResponseEntity.internalServerError().body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 resolveErrorMessage(ErrorConstants.ErrorMessages.INTERNAL_SERVER_ERROR)));
     }
 
@@ -53,12 +53,12 @@ public class InventoryExceptionHandler {
         logger.error("Validation Exception", exception);
         List<String> violations = exception.getFieldErrors().stream()
                 .map(x -> x.getField() + " : " + x.getDefaultMessage()).collect(Collectors.toList());
-        return ResponseEntity.ok().body(new ServiceError(HttpStatus.BAD_REQUEST.value(), violations));
+        return ResponseEntity.badRequest().body(new ServiceError(HttpStatus.BAD_REQUEST.value(), violations));
     }
 
     private ResponseEntity<ServiceError> handleBusinessException(BusinessException exception) {
         logger.error("Business Exception", exception);
-        return ResponseEntity.ok()
+        return ResponseEntity.unprocessableEntity()
                 .body(new ServiceError(exception.getErrorCode(), resolveErrorMessage(exception.getMessage())));
     }
 
