@@ -1,5 +1,6 @@
 package com.roboticsinc.robotinventory.service;
 
+import com.roboticsinc.robotinventory.controller.dto.RobotDTO;
 import com.roboticsinc.robotinventory.domain.Robot;
 import com.roboticsinc.robotinventory.domain.RobotFunction;
 import com.roboticsinc.robotinventory.domain.RobotState;
@@ -7,6 +8,7 @@ import com.roboticsinc.robotinventory.exception.BusinessException;
 import com.roboticsinc.robotinventory.repository.RobotFunctionRepository;
 import com.roboticsinc.robotinventory.repository.RobotRepository;
 import com.roboticsinc.robotinventory.repository.RobotStateRepository;
+import com.roboticsinc.robotinventory.util.InventoryUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +18,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_FUNCTION;
-import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_STATE;
+import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.*;
 
 /**
  * Robot service
@@ -106,5 +107,28 @@ public class RobotService {
     public Long saveRobot(Robot robot) {
         robot = robotRepository.save(robot);
         return robot.getId();
+    }
+
+    /**
+     * Method to update robot entity
+     *
+     * @param id       robot id
+     * @param robotDTO update dto
+     */
+    public void updateRobot(Long id, RobotDTO robotDTO) {
+        Robot updatableEntity = getRobotById(id).map(robot -> mapRobotUpdate(robot, robotDTO))
+                .orElseThrow(() -> new BusinessException(ROBOT_NOT_FOUND.getErrorCode(), ROBOT_NOT_FOUND.getMessage()));
+        saveRobot(updatableEntity);
+    }
+
+    private Robot mapRobotUpdate(Robot robot, RobotDTO dto) {
+        robot.setName(dto.getName());
+        robot.setMass(dto.getMass());
+        robot.setYearBuilt(InventoryUtils.isValidYear(dto.getYearBuilt()));
+        robot.setColor(dto.getColor());
+        robot.setState(getRobotStateByCode(dto.getState()));
+        robot.getFunctions().clear();
+        dto.getFunctions().stream().map(this::getRobotFunctionByCode).forEach(robot::addRobotFunction);
+        return robot;
     }
 }

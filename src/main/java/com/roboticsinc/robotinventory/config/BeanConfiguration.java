@@ -19,9 +19,9 @@ public class BeanConfiguration {
         return messageSource;
     }
 
-    // For JSR303/349 validation messages
+    // For JSR 380 validation message resolution
     @Bean
-    public LocalValidatorFactoryBean getValidator() {
+    public LocalValidatorFactoryBean validator() {
         LocalValidatorFactoryBean validator = new LocalValidatorFactoryBean();
         validator.setValidationMessageSource(messageSource());
         return validator;

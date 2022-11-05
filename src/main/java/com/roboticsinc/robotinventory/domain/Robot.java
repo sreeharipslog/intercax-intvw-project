@@ -86,6 +86,7 @@ public class Robot {
     }
 
     public Set<RobotFunction> getFunctions() {
+        // Use Hibernate initialization check if this method is repeatedly called at lower levels, to avoid extra query
         return functions;
     }
 

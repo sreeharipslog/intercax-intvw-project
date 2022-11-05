@@ -92,9 +92,9 @@ public class RobotController {
      * @param id Robot id
      * @return message
      */
-    @PutMapping
-    public String updateRobot() {
-        // TODO :: update robot-state, functions, name, color
+    @PutMapping("/{id}")
+    public String updateRobot(@RequestBody @Valid RobotDTO robotDTO, @PathVariable("id") @NotNull(message = ErrorMessages.INVALID_REQUEST) Long id) {
+        robotService.updateRobot(id, robotDTO);
         return "Robot updated successfully";
     }
 

@@ -1,5 +1,7 @@
 package com.roboticsinc.robotinventory.domain;
 
+import org.hibernate.Hibernate;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
@@ -19,7 +21,7 @@ public class RobotFunction {
     private String description;
 
     @ManyToMany(mappedBy = "functions")
-    private Set<Robot> robots = new HashSet<>();
+    private Set<Robot> robots;
 
     public Long getId() {
         return id;
@@ -46,7 +48,9 @@ public class RobotFunction {
     }
 
     public Set<Robot> getRobots() {
-        return robots;
+        // Once initialized (or lazy-loaded) no need to fetch again from persistence, avoids additional query
+        // JOIN FETCH is needed to load robots via function
+        return Hibernate.isInitialized(robots) ? robots : new HashSet<>();
     }
 
     public void setRobots(Set<Robot> robots) {

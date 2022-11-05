@@ -6,6 +6,6 @@ public interface AppConstants {
 
 
     // Regex constants
-    String ROBOT_STATE_REGEX = "AWAITED|READY|DEPLOYED|END-OF-LIFE";
+    String ROBOT_STATE_REGEX = "AWAITED|READY|DEPLOYED";
     String ROBOT_FUNCTION_REGEX = "LS|TS|SS|PS|DF";
 }
