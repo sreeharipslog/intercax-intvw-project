@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVENTORY_EMPTY;
 import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.ROBOT_NOT_FOUND;
@@ -91,7 +93,7 @@ public class RobotController {
      */
     @PutMapping
     public String updateRobot() {
-        // update robot-state, functions, name, color
+        // TODO :: update robot-state, functions, name, color
         return "Robot updated successfully";
     }
 
@@ -104,7 +106,7 @@ public class RobotController {
     @DeleteMapping("/{id}")
     public String deleteRobot(@PathVariable("id") @NotNull(message = ErrorMessages.INVALID_REQUEST) Long id) {
         // Challenge mention - Soft deletion, Hence, Robot entity is persisted with decommissioned state.
-        robotService.updateRobotState(id, AppConstants.State.END_OF_LIFE.name());
+        robotService.updateRobotState(id, AppConstants.END_OF_LIFE);
         return "Robot deleted successfully";
     }
 }
