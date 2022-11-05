@@ -1,11 +1,13 @@
 package com.roboticsinc.robotinventory.domain;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
-@Table(name = "robot_state")
-public class RobotState {
+@Table(name = "robot_function")
+public class RobotFunction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,6 +17,9 @@ public class RobotState {
     private String code;
 
     private String description;
+
+    @ManyToMany(mappedBy = "functions")
+    private Set<Robot> robots = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -40,11 +45,19 @@ public class RobotState {
         this.description = description;
     }
 
+    public Set<Robot> getRobots() {
+        return robots;
+    }
+
+    public void setRobots(Set<Robot> robots) {
+        this.robots = robots;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        RobotState that = (RobotState) o;
+        RobotFunction that = (RobotFunction) o;
         return id.equals(that.id);
     }
 

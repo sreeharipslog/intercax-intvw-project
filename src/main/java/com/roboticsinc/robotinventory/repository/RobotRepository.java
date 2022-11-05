@@ -1,7 +1,5 @@
 package com.roboticsinc.robotinventory.repository;
 
-import com.roboticsinc.robotinventory.constant.AppConstants;
-import com.roboticsinc.robotinventory.constant.ErrorConstants;
 import com.roboticsinc.robotinventory.domain.Robot;
 import com.roboticsinc.robotinventory.domain.RobotState;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -2,19 +2,10 @@ package com.roboticsinc.robotinventory.constant;
 
 public interface AppConstants {
 
-    /**
-     * Robot state.<br>
-     * <ul>
-     *     <li>AWAITED : Currently being created</li>
-     *     <li>READY : Tested and Ready to ship</li>
-     *     <li>DEPLOYED : Deployed on field</li>
-     *     <li>END_OF_LIFE : Damaged beyond repair</li>
-     * </ul>
-     */
-    enum State {
-        AWAITED, READY, DEPLOYED, END_OF_LIFE;
-    }
+    String END_OF_LIFE = "END-OF-LIFE";
+
 
     // Regex constants
-    String ROBOT_STATE_REGEX = "Awaited|Ready|Deployed|End-Of-Life";
+    String ROBOT_STATE_REGEX = "AWAITED|READY|DEPLOYED|END-OF-LIFE";
+    String ROBOT_FUNCTION_REGEX = "LS|TS|SS|PS|DF";
 }

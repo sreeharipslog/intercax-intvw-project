@@ -1,8 +1,10 @@
 package com.roboticsinc.robotinventory.service;
 
 import com.roboticsinc.robotinventory.domain.Robot;
+import com.roboticsinc.robotinventory.domain.RobotFunction;
 import com.roboticsinc.robotinventory.domain.RobotState;
 import com.roboticsinc.robotinventory.exception.BusinessException;
+import com.roboticsinc.robotinventory.repository.RobotFunctionRepository;
 import com.roboticsinc.robotinventory.repository.RobotRepository;
 import com.roboticsinc.robotinventory.repository.RobotStateRepository;
 import org.slf4j.Logger;
@@ -14,6 +16,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
+import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_FUNCTION;
 import static com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError.INVALID_ROBOT_STATE;
 
 @Service
@@ -27,6 +30,9 @@ public class RobotService {
 
     @Autowired
     private RobotStateRepository robotStateRepository;
+
+    @Autowired
+    private RobotFunctionRepository robotFunctionRepository;
 
     /**
      * Method to fetch robot by id
@@ -73,6 +79,12 @@ public class RobotService {
     public RobotState getRobotStateByCode(String code) {
         return robotStateRepository.findByCode(code).orElseThrow(
                 () -> new BusinessException(INVALID_ROBOT_STATE.getErrorCode(), INVALID_ROBOT_STATE.getMessage()));
+    }
+
+    public RobotFunction getRobotFunctionByCode(String code) {
+        return robotFunctionRepository.findByCode(code).orElseThrow(
+                () -> new BusinessException(INVALID_ROBOT_FUNCTION.getErrorCode(),
+                        INVALID_ROBOT_FUNCTION.getMessage()));
     }
 
     /**

@@ -20,9 +20,10 @@ public interface InventoryUtils {
      * @return {@link Year}
      * @throws BusinessException iff invalid yearString
      */
-    static Year stringToYear(String yearString) {
+    static String isValidYear(String yearString) {
         try {
-            return Year.parse(yearString);
+            Year.parse(yearString);
+            return yearString;
         } catch (DateTimeException e) {
             throw new BusinessException(BusinessError.YEAR_INVALID.getErrorCode(),
                     BusinessError.YEAR_INVALID.getMessage());

@@ -1,21 +1,22 @@
 spring:
-    profiles:
-        active: dev
-    banner:
-        charset: UTF-8
-        location: classpath:robot-inventory-banner.txt
-    datasource:
-        url: jdbc:h2:mem:robotinventory
-        username: icaxdb
-        password: Dev1testDB
-    jpa:
-        database-platform: org.hibernate.dialect.H2Dialect # h2 dialect for auto-generated scripts (maps jdbc type to db type)
-        show-sql: true
-        #properties:
-            # hibernate.hbm2ddl.auto: validate # Enable in higher env when using persistence DB for better control
+  profiles:
+    active: dev
+  banner:
+    charset: UTF-8
+    location: classpath:robot-inventory-banner.txt
+  datasource:
+    url: jdbc:h2:mem:robotinventory
+    username: icaxdb
+    password: Dev1testDB
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect # h2 dialect for auto-generated scripts (maps jdbc type to db type)
+    show-sql: true
+    defer-datasource-initialization: true # auto create table + initialize data from .sql file only for dev
+    #properties:
+      #hibernate.ddl-auto: validate # Enable in higher env when using persistence DB for better control
 
 server:
-    servlet:
-        context-path: /api/v1
-    error:
-        include-stacktrace: never
+  servlet:
+    context-path: /api/v1
+  error:
+    include-stacktrace: never

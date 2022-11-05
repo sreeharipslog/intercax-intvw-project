@@ -4,6 +4,7 @@ import com.roboticsinc.robotinventory.constant.AppConstants;
 import com.roboticsinc.robotinventory.constant.ErrorConstants.ErrorMessages;
 
 import javax.validation.constraints.Pattern;
+import java.util.List;
 
 public class RobotDTO {
     private String name;
@@ -12,6 +13,9 @@ public class RobotDTO {
     private String color;
     @Pattern(regexp = AppConstants.ROBOT_STATE_REGEX, message = ErrorMessages.INVALID_ROBOT_STATE)
     private String state;
+
+    List<@Pattern(regexp = AppConstants.ROBOT_FUNCTION_REGEX,
+                  message = ErrorMessages.INVALID_ROBOT_FUNCTION) String> functions;
 
     public String getName() {
         return name;
@@ -51,5 +55,13 @@ public class RobotDTO {
 
     public void setYearBuilt(String yearBuilt) {
         this.yearBuilt = yearBuilt;
+    }
+
+    public List<String> getFunctions() {
+        return functions;
+    }
+
+    public void setFunctions(List<String> functions) {
+        this.functions = functions;
     }
 }
