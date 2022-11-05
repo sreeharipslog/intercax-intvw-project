@@ -16,5 +16,5 @@ public interface AppConstants {
     }
 
     // Regex constants
-    String ROBOT_STATE_REGEX = "Awaited|Ready|Deployed|Decommissioned";
+    String ROBOT_STATE_REGEX = "Awaited|Ready|Deployed|End-Of-Life";
 }

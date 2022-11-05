@@ -5,16 +5,18 @@ package com.roboticsinc.robotinventory.constant;
  */
 public interface ErrorConstants {
 
+    String CONFIG_ERROR = "System error. Please Contact technical support.";
 
     /**
      * Internationalized error messages
      */
     interface ErrorMessages {
-        String INVALID_ROBOT_STATE = "invalid.robot.state";
-        String ROBOT_NOT_FOUND = "robot.not.found";
+
         String INVALID_REQUEST = "invalid.request";
         String INTERNAL_SERVER_ERROR = "internal.server.error";
-
+        String INVENTORY_EMPTY = "inventory.empty";
+        String ROBOT_NOT_FOUND = "robot.not.found";
+        String INVALID_ROBOT_STATE = "invalid.robot.state";
         String INVALID_YEAR = "invalid.year";
     }
 
@@ -22,7 +24,7 @@ public interface ErrorConstants {
      * Business error enums with error code and error messages
      */
     enum BusinessError {
-        INVENTORY_EMPTY(1000, "Robot inventory is empty"), ROBOT_NOT_FOUND(1001,
+        INVENTORY_EMPTY(1000, ErrorMessages.INVENTORY_EMPTY), ROBOT_NOT_FOUND(1001,
                 ErrorMessages.ROBOT_NOT_FOUND), INVALID_ROBOT_STATE(1002,
                 ErrorMessages.INVALID_ROBOT_STATE), YEAR_INVALID(1003, ErrorMessages.INVALID_YEAR);
 

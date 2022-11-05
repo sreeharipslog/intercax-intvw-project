@@ -55,16 +55,14 @@ public class RobotController {
      * @return response with count
      */
     @GetMapping
-    public Map<String, Object> getRobots(@RequestParam(value = "state", required = false) @Pattern(regexp =
-            AppConstants.ROBOT_STATE_REGEX, message = ErrorMessages.INVALID_ROBOT_STATE) String state) {
+    public Map<String, Object> getRobots(@RequestParam(value = "state", required = false) String state) {
         List<Robot> robots;
-        if (Objects.isNull(state)) robots = Optional.of(robotService.getAllRobots())
-                .orElseThrow(() -> new BusinessException(INVENTORY_EMPTY.getErrorCode(), INVENTORY_EMPTY.getMessage()));
+        if (Objects.isNull(state)) robots = robotService.getAllRobots();
         else {
             logger.info("Fetching robots by state = {}", state);
-            robots = Optional.of(robotService.getAllRobotsByState(state)).orElseThrow(
-                    () -> new BusinessException(INVENTORY_EMPTY.getErrorCode(), INVENTORY_EMPTY.getMessage()));
+            robots = robotService.getAllRobotsByState(state);
         }
+        if (robots.isEmpty()) throw new BusinessException(INVENTORY_EMPTY.getErrorCode(), INVENTORY_EMPTY.getMessage());
         Map<String, Object> response = new LinkedHashMap<>();
         response.put("count", robots.size());
         response.put("data", robotMapper.domainListToDtoList(robots));
@@ -93,7 +91,7 @@ public class RobotController {
      */
     @PutMapping
     public String updateRobot() {
-        // update robotstate, functions, name, color
+        // update robot-state, functions, name, color
         return "Robot updated successfully";
     }
 
