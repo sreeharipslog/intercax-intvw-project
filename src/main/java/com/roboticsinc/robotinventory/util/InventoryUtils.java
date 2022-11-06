@@ -17,10 +17,10 @@ public interface InventoryUtils {
      * Convert String to Year
      *
      * @param yearString year string
-     * @return {@link Year}
+     * @return year string
      * @throws BusinessException iff invalid yearString
      */
-    static String isValidYear(String yearString) {
+    static String validYear(String yearString) {
         try {
             Year.parse(yearString);
             return yearString;

@@ -21,7 +21,7 @@ public class RobotMapper implements InventoryMapper<Robot, RobotDTO> {
         Robot robot = new Robot();
         robot.setName(dto.getName());
         robot.setMass(dto.getMass());
-        robot.setYearBuilt(InventoryUtils.isValidYear(dto.getYearBuilt()));
+        robot.setYearBuilt(InventoryUtils.validYear(dto.getYearBuilt()));
         robot.setColor(dto.getColor());
         robot.setState(robotService.getRobotStateByCode(dto.getState()));
         dto.getFunctions().stream().map(robotService::getRobotFunctionByCode).forEach(robot::addRobotFunction);
