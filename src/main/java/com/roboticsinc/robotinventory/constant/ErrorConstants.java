@@ -19,6 +19,8 @@ public interface ErrorConstants {
         String INVALID_ROBOT_STATE = "invalid.robot.state";
         String INVALID_YEAR = "invalid.year";
         String INVALID_ROBOT_FUNCTION = "invalid.robot.function";
+
+        String INVALID_TYPE = "invalid.type";
     }
 
     /**
@@ -28,7 +30,8 @@ public interface ErrorConstants {
         INVENTORY_EMPTY(1000, ErrorMessages.INVENTORY_EMPTY), ROBOT_NOT_FOUND(1001,
                 ErrorMessages.ROBOT_NOT_FOUND), INVALID_ROBOT_STATE(1002,
                 ErrorMessages.INVALID_ROBOT_STATE), YEAR_INVALID(1003,
-                ErrorMessages.INVALID_YEAR), INVALID_ROBOT_FUNCTION(1004, ErrorMessages.INVALID_ROBOT_FUNCTION);
+                ErrorMessages.INVALID_YEAR), INVALID_ROBOT_FUNCTION(1004,
+                ErrorMessages.INVALID_ROBOT_FUNCTION), TYPE_ERROR(1005, ErrorMessages.INVALID_TYPE);
 
         private final int errorCode;
         private final String message;
