@@ -124,7 +124,7 @@ public class RobotService {
     private Robot mapRobotUpdate(Robot robot, RobotDTO dto) {
         robot.setName(dto.getName());
         robot.setMass(dto.getMass());
-        robot.setYearBuilt(InventoryUtils.isValidYear(dto.getYearBuilt()));
+        robot.setYearBuilt(InventoryUtils.validYear(dto.getYearBuilt()));
         robot.setColor(dto.getColor());
         robot.setState(getRobotStateByCode(dto.getState()));
         robot.getFunctions().clear();
