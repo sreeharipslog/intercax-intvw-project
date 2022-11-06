@@ -1,12 +1,16 @@
 package com.roboticsinc.robotinventory.exception;
 
 import com.roboticsinc.robotinventory.constant.ErrorConstants;
+import com.roboticsinc.robotinventory.constant.ErrorConstants.BusinessError;
+import com.roboticsinc.robotinventory.constant.ErrorConstants.ErrorMessages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.ClassUtils;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -34,19 +38,30 @@ public class InventoryExceptionHandler {
     @Autowired
     private MessageSource messageSource;
 
-    @ExceptionHandler({BusinessException.class, MethodArgumentNotValidException.class, Exception.class})
+    @ExceptionHandler(
+            {BusinessException.class, MethodArgumentNotValidException.class, TypeMismatchException.class,
+                    Exception.class})
     public ResponseEntity<ServiceError> handleException(Exception exception) {
         logger.error("Inventory Service Exception");
         if (exception instanceof BusinessException) return handleBusinessException((BusinessException) exception);
         else if (exception instanceof MethodArgumentNotValidException)
             return handleValidationException((MethodArgumentNotValidException) exception);
+        else if (exception instanceof TypeMismatchException)
+            return handleTypeMismatchException((TypeMismatchException) exception);
         else return handleGenericException(exception);
+    }
+
+    private ResponseEntity<ServiceError> handleTypeMismatchException(TypeMismatchException ex) {
+        logger.error("Type Conversion Exception", ex);
+        return ResponseEntity.internalServerError().body(new ServiceError(BusinessError.TYPE_ERROR.getErrorCode(),
+                resolveErrorMessage(BusinessError.TYPE_ERROR.getMessage(),
+                        ClassUtils.getDescriptiveType(ex.getValue()))));
     }
 
     private ResponseEntity<ServiceError> handleGenericException(Exception exception) {
         logger.error("Internal Exception", exception);
-        return ResponseEntity.internalServerError().body(new ServiceError(HttpStatus.INTERNAL_SERVER_ERROR.value(),
-                resolveErrorMessage(ErrorConstants.ErrorMessages.INTERNAL_SERVER_ERROR)));
+        return ResponseEntity.internalServerError().body(new ServiceError(BusinessError.TYPE_ERROR.getErrorCode(),
+                resolveErrorMessage(ErrorMessages.INTERNAL_SERVER_ERROR)));
     }
 
     private ResponseEntity<ServiceError> handleValidationException(MethodArgumentNotValidException exception) {
@@ -62,7 +77,7 @@ public class InventoryExceptionHandler {
                 .body(new ServiceError(exception.getErrorCode(), resolveErrorMessage(exception.getMessage())));
     }
 
-    private String resolveErrorMessage(String errorMessage) {
-        return messageSource.getMessage(errorMessage, null, ErrorConstants.CONFIG_ERROR, Locale.US);
+    private String resolveErrorMessage(String errorMessage, Object... params) {
+        return messageSource.getMessage(errorMessage, params, ErrorConstants.CONFIG_ERROR, Locale.US);
     }
 }
