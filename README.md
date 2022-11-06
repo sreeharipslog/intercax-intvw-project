@@ -1,4 +1,4 @@
-# intercax-intvw-project
+# Intercax Interview Challenge
 Intercax interview project repository
 
 Challenge - Help Robotics Inc. with a new web-service with REST API1Challenge - Help Robotics Inc. with a new web-service with REST API.
