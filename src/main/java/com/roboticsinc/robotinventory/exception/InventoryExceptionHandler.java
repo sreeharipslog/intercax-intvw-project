@@ -67,7 +67,8 @@ public class InventoryExceptionHandler {
     private ResponseEntity<ServiceError> handleValidationException(MethodArgumentNotValidException exception) {
         logger.error("Validation Exception", exception);
         List<String> violations = exception.getFieldErrors().stream()
-                .map(x -> x.getField() + " : " + x.getDefaultMessage()).collect(Collectors.toList());
+                .map(x -> x.getField() + " : " + resolveErrorMessage(x.getDefaultMessage()))
+                .collect(Collectors.toList());
         return ResponseEntity.badRequest().body(new ServiceError(HttpStatus.BAD_REQUEST.value(), violations));
     }
 
