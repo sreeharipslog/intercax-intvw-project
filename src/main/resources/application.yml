@@ -17,6 +17,6 @@ spring:
 
 server:
   servlet:
-    context-path: /api/v1
+    context-path: /api/v1 # override default auto-configured URL pattern
   error:
     include-stacktrace: never
