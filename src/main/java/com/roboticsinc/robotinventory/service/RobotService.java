@@ -1,5 +1,6 @@
 package com.roboticsinc.robotinventory.service;
 
+import com.roboticsinc.robotinventory.constant.AppConstants;
 import com.roboticsinc.robotinventory.controller.dto.RobotDTO;
 import com.roboticsinc.robotinventory.domain.Robot;
 import com.roboticsinc.robotinventory.domain.RobotFunction;
@@ -61,7 +62,8 @@ public class RobotService {
      * @return list of {@link Robot} instance
      */
     public List<Robot> getAllRobots() {
-        return robotRepository.findAll();
+        RobotState state = getRobotStateByCode(AppConstants.END_OF_LIFE);
+        return robotRepository.findAllByStateNot(state);
     }
 
     /**
